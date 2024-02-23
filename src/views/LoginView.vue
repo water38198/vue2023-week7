@@ -52,7 +52,7 @@ function login() {
     <main>
         <div class="flex justify-center items-center h-screen font-sans">
             <form action="" ref="loginForm">
-                <h1 class="text-center font-size-8 mb-8 font-medium">請先登入</h1>
+                <h1 class="text-center font-size-8 mb-8 font-medium">登入</h1>
                 <div class="custom-input-group mb-4 position-relative">
                     <input type="email" id="email" placeholder="Email address"
                         class=" font-size-4 px-3 py-4 b-1 border-solid border-#ced4da rd outline-none pointer-events-none"

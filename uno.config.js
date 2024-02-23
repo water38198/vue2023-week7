@@ -5,12 +5,7 @@ import transformerDirectives from '@unocss/transformer-directives'
 export default defineConfig({
     // ...UnoCSS options
     presets: [
-        presetIcons({
-            extraProperties: {
-                'display': 'inline-block',
-                'vertical-align': 'middle'
-            }
-        }),
+        presetIcons(),
         presetUno(),
         presetAttributify()
     ],

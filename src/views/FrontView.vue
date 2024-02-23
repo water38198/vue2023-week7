@@ -30,3 +30,9 @@ import { RouterView, RouterLink } from 'vue-router';
     </div>
     <RouterView></RouterView>
 </template>
+
+<style scoped>
+a.router-link-active {
+    color: cadetblue;
+}
+</style>
