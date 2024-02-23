@@ -1,43 +1,18 @@
 <script setup>
 import Swal from 'sweetalert2'
 import axios from 'axios';
-import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue';
 
 import ProductModal from '@/components/dashboard/ProductModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const router = useRouter();
 const products = ref([]);
 const dialog = ref();
 const tempProduct = ref({});
 const isNew = ref(true);
 const pagination = ref({});
-function checkAdmin() {
-    // 取出 token
-    const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("myToken="))
-        ?.split("=")[1];
-    // 如果有取得 token ，放入 header
-    if (token) {
-        axios.defaults.headers.common["Authorization"] = token;
-    }
-    // 發出 check 請求，如果通過則取得產品，失敗則導回燈入頁
-    axios.post(`${VITE_URL}/v2/api/user/check`)
-        .then(() => {
-            getProducts();
-        }).catch(() => {
-            Swal.fire({
-                title: "請先登入",
-                icon: "error",
-                didClose: () => {
-                    router.push("/")
-                }
-            })
-        })
-}
+
 function getProducts(page = 1) {
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/products?page=${page}`)
         .then(res => {
@@ -124,7 +99,7 @@ function deleteProduct(product) {
     })
 }
 onMounted(() => {
-    checkAdmin();
+    getProducts()
 })
 </script>
 <template>

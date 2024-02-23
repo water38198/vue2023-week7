@@ -34,7 +34,6 @@ function checkAdmin() {
 onMounted(() => {
     checkAdmin();
 })
-
 </script>
 <template>
     <div class="container mx-a">

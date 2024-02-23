@@ -30,7 +30,7 @@ function upload(e) {
     axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
         .then(res => {
             console.log(res.data.imageUrl);
-            addNewImages()
+            addNewImages();
             tempProduct.value.imagesUrl[tempProduct.value.imagesUrl.length - 1] = res.data.imageUrl
         })
         .catch(err => {
