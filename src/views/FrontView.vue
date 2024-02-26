@@ -6,24 +6,24 @@ import { RouterView, RouterLink } from 'vue-router';
     <div class="container mx-a">
         <h2 class="font-size-10">前台</h2>
         <nav>
-            <ul class="flex gap-4">
+            <ul class="flex gap-6">
                 <li>
-                    <RouterLink to="/">首頁</RouterLink>
+                    <RouterLink to="/" class="font-size-6">首頁</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/products">產品</RouterLink>
+                    <RouterLink to="/products" class="font-size-6">產品</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/cart">購物車</RouterLink>
+                    <RouterLink to="/cart" class="font-size-6">購物車</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/about">關於</RouterLink>
+                    <RouterLink to="/about" class="font-size-6">關於</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/admin">後台</RouterLink>
+                    <RouterLink to="/admin" class="font-size-6">後台</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/login">登入</RouterLink>
+                    <RouterLink to="/login" class="font-size-6">登入</RouterLink>
                 </li>
             </ul>
         </nav>

@@ -3,6 +3,7 @@
 </script>
 
 <template>
-  <div class="text-(blue center)" bg-black>123</div>
-  <div class="i-tabler:360-view"></div>
+  <div class="container">
+    <h2 class="font-size-10 text-center">我是首頁</h2>
+  </div>
 </template>

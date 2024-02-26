@@ -1,6 +1,6 @@
 <script setup>
-import axios from 'axios';
 import { ref, watch } from 'vue'
+import axios from 'axios';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const props = defineProps(['tempProduct', 'isNew']);
@@ -89,9 +89,6 @@ defineExpose({
                             <input type="file" name="file-to-upload" @change="upload">
                             <input type="submit" value="Upload">
                         </form>
-
-
-
                     </div>
                 </div>
                 <div class="col-span-8">

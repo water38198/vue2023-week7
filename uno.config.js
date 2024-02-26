@@ -13,4 +13,9 @@ export default defineConfig({
         transformerVariantGroup(),
         transformerDirectives(),
     ],
+    theme: {
+        container: {
+            center: true,
+        }
+    }
 })
