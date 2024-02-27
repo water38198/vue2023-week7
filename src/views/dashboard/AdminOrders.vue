@@ -2,6 +2,10 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import moment from 'moment'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
+
 
 import OrderModal from '@/components/dashboard/OrderModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
@@ -11,12 +15,24 @@ const orders = ref([]);
 const pagination = ref({});
 const tempOrder = ref({})
 const orderModalRef = ref();
+const isLoading = ref(false);
 
 function getOrders(page = 1) {
+    isLoading.value = true;
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders?page=${page}`)
         .then(res => {
             orders.value = res.data.orders;
             pagination.value = res.data.pagination;
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: '錯誤發生',
+                text: err.response.data.message,
+            })
+        })
+        .finally(() => {
+            isLoading.value = false;
         })
 }
 function openOrderModal(order) {
@@ -66,12 +82,16 @@ function confirmOrder(order) {
         })
 }
 
+function getMoment(data) {
+    return moment(data).format('YYYY-MM-DD')
+}
 onMounted(() => {
     getOrders();
 })
 </script>
 <template>
-    <div class="container mx-a">
+    <div class="container mx-a relative">
+        <Loading :active="isLoading" :full-page="false"></Loading>
         <!-- 訂單列表 -->
         <table class="w-100% mt-6">
             <thead class="border-b-1 border-black border-solid fw-bold text-left">
@@ -102,7 +122,7 @@ onMounted(() => {
             </thead>
             <tbody>
                 <tr class="border-b border-#DEE2E6 border-solid" v-for="order in orders" :key="order.id">
-                    <td>{{ order.create_at }}</td>
+                    <td>{{ getMoment(order.create_at * 1000) }}</td>
                     <td>{{ order.id }}</td>
                     <td>
                         <ul>

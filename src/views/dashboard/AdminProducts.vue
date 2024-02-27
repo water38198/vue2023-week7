@@ -1,7 +1,10 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
 import Swal from 'sweetalert2'
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
 import ProductModal from '@/components/dashboard/ProductModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
@@ -12,12 +15,25 @@ const dialog = ref();
 const tempProduct = ref({});
 const isNew = ref(true);
 const pagination = ref({});
+const isLoading = ref(false);
+
 
 function getProducts(page = 1) {
+    isLoading.value = true;
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/products?page=${page}`)
         .then(res => {
             products.value = res.data.products;
             pagination.value = res.data.pagination;
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: '錯誤發生',
+                text: err.response.data.message,
+            })
+        })
+        .finally(() => {
+            isLoading.value = false;
         })
 }
 function addNewProduct() {
@@ -103,7 +119,8 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="container mx-a">
+    <div class="container mx-a relative">
+        <Loading :active="isLoading" :full-page="false"></Loading>
         <div class="text-end mt-6">
             <!-- 新增按鈕 -->
             <button type="button"
@@ -143,9 +160,9 @@ onMounted(() => {
                         <span class="text-red" v-else>未啟用</span>
                     </td>
                     <td>
-                        <div class="btn-group">
+                        <div>
                             <button type="button"
-                                class="text-#0d6efd bg-transparent border-(1 #0d6efd solid r-0) rd-tl rd-bl px-2 py-1 hover:(bg-#0d6efd text-white cursor-pointer)"
+                                class="text-#0d6efd bg-transparent border-(1 #0d6efd solid) rd-tl rd-bl px-2 py-1 hover:(bg-#0d6efd text-white cursor-pointer)"
                                 @click="editProduct(product)">
                                 編輯
                             </button>
