@@ -25,7 +25,6 @@ function getCoupons(page = 1) {
         .then(res => {
             coupons.value = res.data.coupons
             pagination.value = res.data.pagination;
-            console.log(res.data.coupons);
         })
         .catch(err => {
             Swal.fire({
@@ -52,8 +51,7 @@ function editCoupon(coupon) {
     couponModalRef.value.dialog.showModal()
 }
 function confirmCoupon(coupon) {
-    coupon.due_date = new Date(coupon.due_date).getTime() / 1000
-    console.log(coupon)
+
     if (isNew.value) {
         axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`, {
             data: coupon
@@ -78,7 +76,6 @@ function confirmCoupon(coupon) {
         axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${coupon.id}`, {
             data: coupon
         }).then(res => {
-
             Swal.fire({
                 title: `${res.data.message}`,
                 icon: 'success',
@@ -87,9 +84,7 @@ function confirmCoupon(coupon) {
                 }
             })
             couponModalRef.value.dialog.close();
-
         }).catch(err => {
-
             Swal.fire({
                 title: '錯誤發生',
                 text: `${err.response.data.message}`,
@@ -99,7 +94,27 @@ function confirmCoupon(coupon) {
         })
     }
 }
-
+function deleteCoupon(coupon) {
+    const { id } = coupon;
+    axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${id}`)
+        .then(res => {
+            Swal.fire({
+                title: `${res.data.message}`,
+                icon: 'success',
+                didClose: () => {
+                    getCoupons();
+                }
+            })
+            couponModalRef.value.dialog.close();
+        }).catch(err => {
+            Swal.fire({
+                title: '錯誤發生',
+                text: `${err.response.data.message}`,
+                icon: 'error',
+                target: 'dialog'
+            })
+        })
+}
 onMounted(() => {
     getCoupons();
 })
@@ -165,8 +180,8 @@ onMounted(() => {
         </table>
     </div>
     <!-- Modal -->
-    <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" :get-moment="getMoment"
-        @confirm-coupon="confirmCoupon"></CouponModal>
+    <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" @confirm-coupon="confirmCoupon">
+    </CouponModal>
     <!--分頁  -->
     <template v-if="coupons.length">
         <PaginationComponent :pages="pagination" @change-page="getCoupons">

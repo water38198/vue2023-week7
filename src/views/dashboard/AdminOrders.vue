@@ -51,8 +51,13 @@ function deleteOrder(id) {
         if (res.isConfirmed) {
             axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`)
                 .then((res) => {
-                    getOrders()
-                    Swal.fire(`${res.data.message}`, '', 'success')
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${res.data.message}`,
+                        didClose: () => {
+                            getOrders();
+                        }
+                    })
                 }).catch(() => {
                     Swal.fire('錯誤發生', '', 'error')
                 })
@@ -69,17 +74,18 @@ function confirmOrder(order) {
     data.total = total
     axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, {
         data
-    })
-        .then((res) => {
-            orderModalRef.value.dialog.close();
-            getOrders();
-            Swal.fire({
-                icon: 'success',
-                title: `${res.data.message}`
-            })
-        }).catch(err => {
-            console.log(err)
+    }).then((res) => {
+        orderModalRef.value.dialog.close();
+        Swal.fire({
+            icon: 'success',
+            title: `${res.data.message}`,
+            didClose: () => {
+                getOrders();
+            }
         })
+    }).catch(err => {
+        console.log(err)
+    })
 }
 
 function getMoment(data) {
@@ -166,9 +172,6 @@ onMounted(() => {
             </tbody>
         </table>
     </div>
-    <!-- Modal -->
-    <!-- <ProductModal @confirm-product="confirmProduct" :temp-product="tempProduct" :is-new="isNew" ref="dialog">
-    </ProductModal> -->
     <template v-if="orders.length">
         <PaginationComponent :pages="pagination" @change-page="getOrders"></PaginationComponent>
     </template>

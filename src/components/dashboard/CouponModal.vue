@@ -1,10 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 
-const props = defineProps(['tempCoupon', 'isNew', 'getMoment'])
+import moment from 'moment'
+
+
+const props = defineProps(['tempCoupon', 'isNew'])
 const tempCoupon = ref(props.tempCoupon)
 const dialog = ref()
-
+const dateTime = ref('')
 function autoClose(e) {
     if (e.target.nodeName === "DIALOG") {
         dialog.value.close();
@@ -15,10 +18,14 @@ function autoClose(e) {
 watch(() => props.tempCoupon, () => {
     tempCoupon.value = { ...props.tempCoupon };
     if (tempCoupon.value.due_date) {
-        tempCoupon.value.due_date = props.getMoment(tempCoupon.value.due_date)
+        dateTime.value = moment(tempCoupon.value.due_date).format('YYYY-MM-DD')
+    };
+    if (!tempCoupon.value.is_enabled) {
+        tempCoupon.value.is_enabled = 0
     }
-    console.log(new Date(tempCoupon.value.due_date).getTime() / 1000)
-
+})
+watch(() => dateTime.value, () => {
+    tempCoupon.value.due_date = new Date(dateTime.value).getTime();
 })
 defineExpose({
     dialog
@@ -27,6 +34,7 @@ defineExpose({
 
 <template>
     <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
+        {{ tempCoupon }}
         <form method="dialog">
             <div class="bg-#212529 p-4 flex justify-between items-center">
                 <h3 class="text-white">{{ isNew ? "新增優惠券" : "編輯優惠券" }}</h3>
@@ -45,13 +53,13 @@ defineExpose({
                 </div>
 
                 <div class="input-group">
-                    <label for="code">優惠碼：</label>
-                    <input type="text" id="code" placeholder="請輸入優惠碼" v-model="tempCoupon.code">
+                    <label for="due_date">日期：</label>
+                    <input type="date" id="due_date" pattern="yyyy-MM-dd" v-model="dateTime">
                 </div>
 
                 <div class="input-group mb-4">
                     <label for="percent">優惠比例：</label>
-                    <input type="number" id="percent" placeholder="請輸入日期" v-model.number="tempCoupon.percent" min="0"
+                    <input type="number" id="percent" placeholder="請輸入折扣百分比" v-model.number="tempCoupon.percent" min="0"
                         max="100">
                 </div>
                 <div>

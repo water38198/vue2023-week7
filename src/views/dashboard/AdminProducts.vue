@@ -54,11 +54,14 @@ function confirmProduct(product) {
         }).then(res => {
             Swal.fire({
                 title: `${res.data.message}`,
-                icon: "success"
+                icon: "success",
+                target: 'dialog',
+                didClose: () => {
+                    getProducts(pagination.value.current_page || 1);
+                }
             })
             dialog.value.dialog.close();
             tempProduct.value = {};
-            getProducts(pagination.value.current_page || 1);
         }).catch(err => {
             Swal.fire({
                 icon: "error",
@@ -76,10 +79,12 @@ function confirmProduct(product) {
                 Swal.fire({
                     title: `${res.data.message}`,
                     icon: "success",
+                    didClose: () => {
+                        getProducts(pagination.value.current_page || 1);
+                    }
                 })
                 dialog.value.dialog.close();
                 tempProduct.value = {};
-                getProducts(pagination.value.current_page || 1);
             }).catch(err => {
                 Swal.fire({
                     icon: "error",
@@ -99,11 +104,12 @@ function deleteProduct(product) {
     }).then(result => {
         if (result.isConfirmed) {
             axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product/${product.id}`).then(res => {
-                getProducts();
-                Swal.fire(res.data.message);
                 Swal.fire({
                     icon: "success",
-                    text: res.data.message
+                    text: res.data.message,
+                    didClose: () => {
+                        getProducts(pagination.value.current_page || 1);
+                    }
                 })
             }).catch(err => {
                 Swal.fire({

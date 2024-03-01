@@ -12,6 +12,7 @@ import axios from 'axios';
 
 const isChecked = ref(false)
 function checkAdmin() {
+
     // 取出 token
     const token = document.cookie
         .split("; ")
@@ -22,8 +23,9 @@ function checkAdmin() {
     // 發出 check 請求，如果通過則取得產品，失敗則導回燈入頁
     axios.post(`${VITE_URL}/v2/api/user/check`)
         .then(() => {
-            isChecked.value = true
+            isChecked.value = true;
         }).catch(() => {
+            isChecked.value = true;
             Swal.fire({
                 title: "請先登入",
                 icon: "error",

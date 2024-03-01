@@ -87,7 +87,7 @@ defineExpose({
                         <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post"
                             class="mt-10">
                             <input type="file" name="file-to-upload" @change="upload">
-                            <input type="submit" value="Upload">
+
                         </form>
                     </div>
                 </div>

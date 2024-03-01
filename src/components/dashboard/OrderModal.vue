@@ -39,9 +39,9 @@ defineExpose({
                 <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 hover:cursor-pointer"
                     @click="dialog.close()"></button>
             </div>
-            <div class="grid grid-cols-12 gap-6 p-3">
-                <div class="col-span-6" v-if='tempOrder.user'>
-                    <h4 class="text-center font-size-6">客戶資料</h4>
+            <div class="grid grid-cols-2 gap-6 p-3">
+                <div v-if='tempOrder.user'>
+                    <h4 class="text-center font-size-6 mb-2">客戶資料</h4>
                     <div class="input-group">
                         <label for="name">姓名</label>
                         <input type="text" id="name" placeholder="請輸入標題" v-model="tempOrder.user.name">
@@ -63,7 +63,7 @@ defineExpose({
                         <p>{{ tempOrder.message }}</p>
                     </div>
                 </div>
-                <div class="col-span-6 flex flex-col">
+                <div class="flex flex-col">
                     <h4 class="text-center font-size-6">購買的商品</h4>
                     <table>
                         <thead>
@@ -87,12 +87,12 @@ defineExpose({
                             </tr>
                         </tbody>
                     </table>
-                    <div class="mt-a">
-                        <label for="is_paid">
-                            <input type="checkbox" id="is_paid" v-model="tempOrder.is_paid" class="custom-checkbox">
-                            是否付款
-                        </label>
-                    </div>
+                </div>
+                <div class="text-end col-start-2">
+                    <label for="is_paid" class="me-2">
+                        <input type="checkbox" id="is_paid" v-model="tempOrder.is_paid" class="custom-checkbox">
+                        是否付款
+                    </label>
                 </div>
             </div>
             <div class="text-end p-3 border-(t solid #dee2e6)">
