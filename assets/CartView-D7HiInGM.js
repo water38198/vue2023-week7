@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vueexport-helper-DlAUqK2U.js";import{c as r,o as t}from"./index-D8-JcWOM.js";const c={};function o(n,a){return t(),r("div",null," Cart ")}const f=e(c,[["render",o]]);export{f as default};
